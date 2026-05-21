@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evan Lapice | UGC Creator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #F0ECE4;
+      --bg-alt:    #E8E3D8;
+      --text:      #1E1E1E;
+      --text-mid:  #3D3D3D;
+      --text-light:#6B6B6B;
+      --accent:    #3D5A80;
+      --border:    #C8C2B4;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 44px;
+      background: transparent;
+    }
+
+    .nav-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-cta {
+      display: inline-block;
+      padding: 9px 26px;
+      background: var(--text);
+      color: var(--bg);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-cta:hover { background: var(--accent); color: #fff; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      max-height: 820px;
+      min-height: 560px;
+      overflow: hidden;
+      background: var(--bg); /* cream — matches site palette */
+    }
+
+    /* Transparent cutout PNG — centered, fills height */
+    .hero-img {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 96%;
+      width: auto;
+      object-fit: contain;
+      /* Fade feet into cream background */
+      mask-image: linear-gradient(to top, transparent 0%, black 12%);
+      -webkit-mask-image: linear-gradient(to top, transparent 0%, black 12%);
+    }
+
+    /* Cream gradient at bottom so dark text stays readable */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(240,236,228,0.0) 0%,
+        rgba(240,236,228,0.3) 55%,
+        rgba(240,236,228,0.92) 100%
+      );
+    }
+
+    .hero-content {
+      position: absolute;
+      bottom: 56px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      padding: 0 48px;
+    }
+
+    .hero-line1 {
+      display: inline-block;
+      position: relative;
+      left: 40px;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      white-space: nowrap;
+      vertical-align: middle;
+      margin-left: 14px;
+      text-shadow: 0 0 12px rgba(240,236,228,0.95), 0 0 24px rgba(240,236,228,0.7);
+    }
+
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(64px, 11vw, 130px);
+      font-weight: 900;
+      line-height: 0.88;
+      color: var(--text);
+    }
+
+    .hero-name em {
+      font-style: italic;
+      color: var(--accent); /* #3D5A80 pops beautifully on cream */
+    }
+
+    .hero-tags {
+      margin-top: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .hero-tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      border: 1px solid var(--border);
+      padding: 5px 13px;
+    }
+
+    /* ── BRAND CAROUSEL (manual, arrow-driven) ── */
+    .brands {
+      background: var(--text);
+      padding: 40px 0;
+    }
+
+    .brands-label {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .brands-carousel {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 60px;
+    }
+
+    .brands-viewport {
+      overflow: hidden;
+      /* shows ~6 circles at a time: 6×88 + 5×28 = 668px */
+      width: min(720px, 100%);
+      flex-shrink: 0;
+    }
+
+    .brands-track {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+      /* transition toggled by JS: 'none' on hover-scroll, '0.3s' on click-nudge */
+      will-change: transform;
+    }
+
+    .brand-item {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .brand-item:hover {
+      transform: scale(1.06);
+      box-shadow: 0 4px 18px rgba(0,0,0,0.22);
+    }
+
+    .brand-item img {
+      width: 70%;
+      height: 70%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .brands-tagline {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      color: rgba(255,255,255,0.3);
+      text-align: center;
+      margin-top: 24px;
+      font-style: italic;
+    }
+
+    .brand-arrow {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.55);
+      font-size: 22px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: border-color 0.2s, color 0.2s;
+      line-height: 1;
+    }
+
+    .brand-arrow:hover {
+      border-color: rgba(255,255,255,0.6);
+      color: #fff;
+    }
+
+    .brand-prev { margin-right: 16px; }
+    .brand-next { margin-left: 16px; }
+
+    /* ── SECTION SHARED ── */
+    .section-eyebrow {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(40px, 6vw, 80px);
+      font-weight: 900;
+      line-height: 1.0;
+      color: var(--text);
+    }
+
+    .section-title em { font-style: italic; color: var(--accent); }
+
+    /* ── UGC VIDEOS (5 across) ── */
+    .content-section {
+      padding: 80px 44px;
+      background: var(--bg);
+    }
+
+    .section-header { margin-bottom: 36px; }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+
+    .video-card {
+      position: relative;
+      aspect-ratio: 9/16;
+      overflow: hidden;
+      background: #111;
+      display: block;
+      text-decoration: none;
+    }
+
+    .v-thumb {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.45s ease;
+    }
+
+    .video-card:hover .v-thumb,
+    .playful-card:hover .v-thumb { transform: scale(1.05); }
+
+    .v-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.0) 40%,
+        rgba(0,0,0,0.6) 100%
+      );
+    }
+
+    .v-brand {
+      position: absolute;
+      bottom: 40px;
+      left: 12px;
+      right: 12px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .v-tiktok {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(0,0,0,0.55);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 5px 9px;
+      border-radius: 2px;
+      transition: background 0.2s;
+      pointer-events: auto;
+    }
+
+    .video-card:hover .v-tiktok { background: #fe2c55; }
+
+    .v-tiktok svg {
+      width: 12px;
+      height: 12px;
+      flex-shrink: 0;
+    }
+
+    /* Centered play button */
+    .v-play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1.5px solid rgba(255,255,255,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 4;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .v-play-btn:hover {
+      background: rgba(255,255,255,0.28);
+      transform: translate(-50%, -50%) scale(1.08);
+    }
+    .v-play-btn svg { width: 16px; height: 16px; fill: white; margin-left: 3px; }
+    .v-hidden { display: none !important; }
+
+    /* Mute toggle button */
+    .v-mute-btn {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.45);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 5;
+      transition: background 0.2s;
+      padding: 0;
+    }
+    .v-mute-btn:hover { background: rgba(0,0,0,0.68); }
+    .v-mute-btn svg { width: 12px; height: 12px; fill: white; display: block; }
+
+    /* Placeholder card (no photo yet) */
+    .v-placeholder {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, #1c1c2e 0%, #16213e 60%, #0f3460 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .v-placeholder-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      text-align: center;
+      padding: 0 12px;
+    }
+
+    /* ── PLAYFUL + CREATIVE ── */
+    .playful-section {
+      padding: 80px 44px;
+      background: var(--text);
+    }
+
+    .playful-section .section-eyebrow {
+      color: rgba(240,236,228,0.35);
+    }
+
+    .playful-section .section-title {
+      color: var(--bg);
+    }
+
+    .playful-section .section-title em {
+      color: #7B9EC2;
+    }
+
+    .playful-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-top: 36px;
+    }
+
+    .playful-card {
+      aspect-ratio: 9/16;
+      background: rgba(255,255,255,0.03);
+      border: 1px dashed rgba(240,236,228,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .playful-card-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(240,236,228,0.18);
+    }
+
+    /* ── GALLERY GRID (uniform, auto-fill — add as many photos as you want) ── */
+    .lifestyle-section {
+      background: var(--bg-alt);
+      padding: 72px 44px 80px;
+    }
+
+    .lifestyle-grid {
+      display: grid;
+      /* 4 columns on desktop, auto-fills rows as you add more photos */
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-top: 36px;
+    }
+
+    .lifestyle-item {
+      overflow: hidden;
+      background: var(--bg);
+      aspect-ratio: 1/1;
+    }
+
+    .lifestyle-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .lifestyle-item:hover img { transform: scale(1.04); }
+
+    /* ── LET'S WORK ── */
+    .cta {
+      background: var(--bg);
+      padding: 100px 44px;
+      text-align: center;
+    }
+
+    .cta-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(80px, 13vw, 160px);
+      font-weight: 900;
+      line-height: 0.88;
+      color: var(--text);
+    }
+
+    .cta-headline em { font-style: italic; color: var(--accent); }
+
+    .cta-availability {
+      margin-top: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-light);
+    }
+
+    .cta-actions {
+      margin-top: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      padding: 16px 44px;
+      background: var(--text);
+      color: var(--bg);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .btn-primary:hover { background: var(--accent); }
+
+    .btn-social {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 15px 28px;
+      border: 1px solid var(--border);
+      color: var(--text-mid);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-social:hover { border-color: var(--accent); color: var(--accent); }
+
+    .btn-social svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--text);
+      padding: 28px 44px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(240,236,228,0.5);
+      letter-spacing: 0.08em;
+    }
+
+    .footer-copy {
+      font-size: 11px;
+      color: rgba(240,236,228,0.22);
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(0,0,0,0.92);
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      cursor: default;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      font-size: 32px;
+      color: rgba(255,255,255,0.6);
+      cursor: pointer;
+      background: none;
+      border: none;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+
+    .lightbox-close:hover { color: #fff; }
+
+    .lifestyle-item { cursor: zoom-in; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1100px) {
+      .video-grid,
+      .playful-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .hero-content { left: 0; right: 0; bottom: 44px; }
+      .content-section,
+      .playful-section,
+      .lifestyle-section,
+      .cta { padding-left: 24px; padding-right: 24px; }
+      .video-grid,
+      .playful-grid { grid-template-columns: repeat(2, 1fr); }
+      .lifestyle-grid { grid-template-columns: repeat(2, 1fr); }
+      .brands-carousel { padding: 0 16px; }
+      .brand-item { width: 72px; height: 72px; }
+    }
+
+    @media (max-width: 600px) {
+      .hero-tags { display: none; }
+      .video-grid,
+      .playful-grid { grid-template-columns: repeat(2, 1fr); }
+      .cta-headline { font-size: clamp(64px, 16vw, 96px); }
+      .cta-actions { flex-direction: column; align-items: flex-start; gap: 16px; }
+      footer { flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-brand" href="#">Evan Lapice</a>
+    <a class="nav-cta" href="mailto:lapiceugc@gmail.com">Get in Touch</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <img class="hero-img" src="ev peace trans.png" alt="Evan Lapice" />
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-name"><span class="hero-line1">Evan<span class="hero-eyebrow">UGC Creator &nbsp;&middot;&nbsp; Fitness &amp; Running</span></span><br><em>Lapice</em></h1>
+      <div class="hero-tags">
+        <span class="hero-tag">Army Veteran</span>
+        <span class="hero-tag">Lost 50 lbs</span>
+        <span class="hero-tag">NYC Marathon 2026</span>
+        <span class="hero-tag">Anime Enthusiast</span>
+        <span class="hero-tag">@lapice_out</span>
+        <span class="hero-tag">3M+ Combined Views</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRAND CAROUSEL (manual, arrow navigation) -->
+  <div class="brands">
+    <p class="brands-label">Brands I've Created Content For</p>
+    <div class="brands-carousel">
+      <button class="brand-arrow brand-prev" aria-label="Previous brands">&#8249;</button>
+      <div class="brands-viewport">
+        <!-- Brands duplicated for seamless infinite loop -->
+        <div class="brands-track" id="brandsTrack">
+          <!-- set 1 -->
+          <div class="brand-item"><img src="logos/invicta_kuru.jpg" alt="Invicta Kuru"></div>
+          <div class="brand-item"><img src="logos/zensah.jpg" alt="Zensah"></div>
+          <div class="brand-item"><img src="logos/gnc.jpg" alt="GNC"></div>
+          <div class="brand-item"><img src="logos/optimum_nutrition.jpg" alt="Optimum Nutrition"></div>
+          <div class="brand-item"><img src="logos/dr_squatch.jpg" alt="Dr. Squatch"></div>
+          <div class="brand-item"><img src="logos/gorilla_mind.jpg" alt="Gorilla Mind"></div>
+          <div class="brand-item"><img src="logos/shokz.jpg" alt="Shokz"></div>
+          <div class="brand-item"><img src="logos/neleus.png" alt="Neleus"></div>
+          <div class="brand-item"><img src="logos/flipbelt.jpg" alt="FlipBelt"></div>
+          <div class="brand-item"><img src="logos/gymreapers.jpg" alt="Gym Reapers"></div>
+          <div class="brand-item"><img src="logos/rockbros.jpg" alt="Rock Bros"></div>
+          <div class="brand-item"><img src="logos/muscletech.jpg" alt="MuscleTest"></div>
+          <div class="brand-item"><img src="logos/cutler_nutrition.jpg" alt="Cutler Nutrition"></div>
+          <div class="brand-item"><img src="logos/sixstar_pro.jpg" alt="Six Star Pro"></div>
+          <div class="brand-item"><img src="logos/force_factor.jpg" alt="Force Factor"></div>
+          <div class="brand-item"><img src="logos/snap_supplements.jpg" alt="Snap Supplements"></div>
+          <div class="brand-item"><img src="logos/kos.jpg" alt="KOS"></div>
+          <div class="brand-item"><img src="logos/met_rx.jpg" alt="Met-Rx"></div>
+          <div class="brand-item"><img src="logos/perfect_sports_usa.webp" alt="Perfect Sports"></div>
+          <div class="brand-item"><img src="logos/get_raw_nutrition.png" alt="Get Raw Nutrition"></div>
+          <div class="brand-item"><img src="logos/old_school_labs.jpg" alt="Old School Labs"></div>
+          <div class="brand-item"><img src="logos/g2g_protein_bar.jpg" alt="G2G Protein Bar"></div>
+          <div class="brand-item"><img src="logos/raycon.jpg" alt="Raycon"></div>
+          <div class="brand-item"><img src="logos/centric.jpg" alt="Centric"></div>
+          <div class="brand-item"><img src="logos/saltstick.jpg" alt="SaltStick"></div>
+          <div class="brand-item"><img src="logos/intake_breathing.jpg" alt="Intake Breathing"></div>
+          <div class="brand-item"><img src="logos/true_sea_moss.jpg" alt="True Sea Moss"></div>
+          <div class="brand-item"><img src="logos/tralloom.png" alt="Tralloom"></div>
+          <div class="brand-item"><img src="logos/cyclotron_pickleball.jpg" alt="Cyclotron Pickleball"></div>
+          <div class="brand-item"><img src="logos/drywater.jpg" alt="DryWater"></div>
+          <div class="brand-item"><img src="logos/inkhausstore.webp" alt="InkHaus Store"></div>
+          <div class="brand-item"><img src="logos/birdman_life.jpg" alt="Birdman Life"></div>
+          <div class="brand-item"><img src="logos/herfantasybox.jpg" alt="HerFantasyBox"></div>
+          <div class="brand-item"><img src="logos/hererope_fitness.jpg" alt="HereRope Fitness"></div>
+          <div class="brand-item"><img src="logos/taste_flavor_co.jpg" alt="Taste Flavor Co."></div>
+          <!-- set 2 (duplicate for seamless loop) -->
+          <div class="brand-item"><img src="logos/invicta_kuru.jpg" alt="Invicta Kuru"></div>
+          <div class="brand-item"><img src="logos/zensah.jpg" alt="Zensah"></div>
+          <div class="brand-item"><img src="logos/gnc.jpg" alt="GNC"></div>
+          <div class="brand-item"><img src="logos/optimum_nutrition.jpg" alt="Optimum Nutrition"></div>
+          <div class="brand-item"><img src="logos/dr_squatch.jpg" alt="Dr. Squatch"></div>
+          <div class="brand-item"><img src="logos/gorilla_mind.jpg" alt="Gorilla Mind"></div>
+          <div class="brand-item"><img src="logos/shokz.jpg" alt="Shokz"></div>
+          <div class="brand-item"><img src="logos/neleus.png" alt="Neleus"></div>
+          <div class="brand-item"><img src="logos/flipbelt.jpg" alt="FlipBelt"></div>
+          <div class="brand-item"><img src="logos/gymreapers.jpg" alt="Gym Reapers"></div>
+          <div class="brand-item"><img src="logos/rockbros.jpg" alt="Rock Bros"></div>
+          <div class="brand-item"><img src="logos/muscletech.jpg" alt="MuscleTest"></div>
+          <div class="brand-item"><img src="logos/cutler_nutrition.jpg" alt="Cutler Nutrition"></div>
+          <div class="brand-item"><img src="logos/sixstar_pro.jpg" alt="Six Star Pro"></div>
+          <div class="brand-item"><img src="logos/force_factor.jpg" alt="Force Factor"></div>
+          <div class="brand-item"><img src="logos/snap_supplements.jpg" alt="Snap Supplements"></div>
+          <div class="brand-item"><img src="logos/kos.jpg" alt="KOS"></div>
+          <div class="brand-item"><img src="logos/met_rx.jpg" alt="Met-Rx"></div>
+          <div class="brand-item"><img src="logos/perfect_sports_usa.webp" alt="Perfect Sports"></div>
+          <div class="brand-item"><img src="logos/get_raw_nutrition.png" alt="Get Raw Nutrition"></div>
+          <div class="brand-item"><img src="logos/old_school_labs.jpg" alt="Old School Labs"></div>
+          <div class="brand-item"><img src="logos/g2g_protein_bar.jpg" alt="G2G Protein Bar"></div>
+          <div class="brand-item"><img src="logos/raycon.jpg" alt="Raycon"></div>
+          <div class="brand-item"><img src="logos/centric.jpg" alt="Centric"></div>
+          <div class="brand-item"><img src="logos/saltstick.jpg" alt="SaltStick"></div>
+          <div class="brand-item"><img src="logos/intake_breathing.jpg" alt="Intake Breathing"></div>
+          <div class="brand-item"><img src="logos/true_sea_moss.jpg" alt="True Sea Moss"></div>
+          <div class="brand-item"><img src="logos/tralloom.png" alt="Tralloom"></div>
+          <div class="brand-item"><img src="logos/cyclotron_pickleball.jpg" alt="Cyclotron Pickleball"></div>
+          <div class="brand-item"><img src="logos/drywater.jpg" alt="DryWater"></div>
+          <div class="brand-item"><img src="logos/inkhausstore.webp" alt="InkHaus Store"></div>
+          <div class="brand-item"><img src="logos/birdman_life.jpg" alt="Birdman Life"></div>
+          <div class="brand-item"><img src="logos/herfantasybox.jpg" alt="HerFantasyBox"></div>
+          <div class="brand-item"><img src="logos/hererope_fitness.jpg" alt="HereRope Fitness"></div>
+          <div class="brand-item"><img src="logos/taste_flavor_co.jpg" alt="Taste Flavor Co."></div>
+        </div>
+      </div>
+      <button class="brand-arrow brand-next" aria-label="Next brands">&#8250;</button>
+    </div>
+    <p class="brands-tagline">35 brands &amp; counting</p>
+  </div>
+
+  <!-- UGC VIDEO GRID (5 across) -->
+  <!--
+    TO SWAP IN REAL VIDEOS: replace the <img class="v-thumb"> (or .v-placeholder div)
+    with: <video class="v-thumb" autoplay muted loop playsinline src="videos/filename.mp4"></video>
+    Keep .v-overlay, .v-brand, and .v-tiktok as-is.
+  -->
+  <section class="content-section">
+    <div class="section-header">
+      <p class="section-eyebrow">Work Samples</p>
+      <h2 class="section-title">Scripted &amp; <em>Authentic.</em></h2>
+    </div>
+    <div class="video-grid">
+
+      <!-- Card 1: Rock Bros (autoplays) -->
+      <div class="video-card">
+        <video class="v-thumb" muted loop playsinline src="Tiktok Videos UGC scripted/Rockbros water bottle 1.mp4"></video>
+        <div class="v-overlay"></div>
+        <span class="v-brand">Rock Bros</span>
+        <button class="v-play-btn v-hidden" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
+        <button class="v-mute-btn" aria-label="Toggle mute"></button>
+      </div>
+
+      <!-- Card 2: Gym Reaper -->
+      <div class="video-card">
+        <video class="v-thumb" muted loop playsinline src="Tiktok Videos UGC scripted/gym reapers wrist strap.mp4"></video>
+        <div class="v-overlay"></div>
+        <span class="v-brand">Gym Reaper</span>
+        <button class="v-play-btn" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
+        <button class="v-mute-btn" aria-label="Toggle mute"></button>
+      </div>
+
+      <!-- Card 3: Walking Pad -->
+      <div class="video-card">
+        <video class="v-thumb" muted loop playsinline src="Tiktok Videos UGC scripted/walking pad voiceover.mp4"></video>
+        <div class="v-overlay"></div>
+        <span class="v-brand">Walking Pad</span>
+        <button class="v-play-btn" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
+        <button class="v-mute-btn" aria-label="Toggle mute"></button>
+      </div>
+
+      <!-- Card 4: Neleus -->
+      <div class="video-card">
+        <video class="v-thumb" muted loop playsinline src="Tiktok Videos UGC scripted/Neleus fall sale do voiceover.mp4"></video>
+        <div class="v-overlay"></div>
+        <span class="v-brand">Neleus</span>
+        <button class="v-play-btn" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
+        <button class="v-mute-btn" aria-label="Toggle mute"></button>
+      </div>
+
+      <!-- Card 5: Soulfull -->
+      <div class="video-card">
+        <video class="v-thumb" muted loop playsinline src="Tiktok Videos UGC scripted/soulfull sazon food review voiceover.mp4"></video>
+        <div class="v-overlay"></div>
+        <span class="v-brand">Soulfull</span>
+        <button class="v-play-btn" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
+        <button class="v-mute-btn" aria-label="Toggle mute"></button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PLAYFUL + CREATIVE -->
+  <section class="playful-section">
+    <div class="section-header">
+      <h2 class="section-title">Playful <em>+ Creative.</em></h2>
+    </div>
+    <div class="playful-grid">
+      <!-- Playful Card 1: Alani Nu (autoplays) -->
+      <div class="playful-card">
+        <video class="v-thumb" muted loop playsinline src="Tiktok Videos UGC Playful or personality/alani nu test test.mp4"></video>
+        <div class="v-overlay"></div>
+        <span class="v-brand">Alani Nu</span>
+        <button class="v-play-btn v-hidden" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
+        <button class="v-mute-btn" aria-label="Toggle mute"></button>
+      </div>
+      <!-- Playful Card 2: Cyclops -->
+      <div class="playful-card">
+        <video class="v-thumb" muted loop playsinline src="Tiktok Videos UGC Playful or personality/cyclops glasses.mp4"></video>
+        <div class="v-overlay"></div>
+        <span class="v-brand">Cyclops</span>
+        <button class="v-play-btn" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
+        <button class="v-mute-btn" aria-label="Toggle mute"></button>
+      </div>
+      <!-- Playful Card 3: PGA Hope -->
+      <div class="playful-card">
+        <video class="v-thumb" muted loop playsinline src="Tiktok Videos UGC Playful or personality/pga hope.mp4"></video>
+        <div class="v-overlay"></div>
+        <span class="v-brand">PGA Hope</span>
+        <button class="v-play-btn" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
+        <button class="v-mute-btn" aria-label="Toggle mute"></button>
+      </div>
+      <!-- Playful Card 4: Shokz -->
+      <div class="playful-card">
+        <video class="v-thumb" muted loop playsinline src="Tiktok Videos UGC Playful or personality/shokz headphones.mp4"></video>
+        <div class="v-overlay"></div>
+        <span class="v-brand">Shokz</span>
+        <button class="v-play-btn" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
+        <button class="v-mute-btn" aria-label="Toggle mute"></button>
+      </div>
+      <!-- Playful Card 5: Balance Board -->
+      <div class="playful-card">
+        <video class="v-thumb" muted loop playsinline src="Tiktok Videos UGC Playful or personality/soulyis balance board.mp4"></video>
+        <div class="v-overlay"></div>
+        <span class="v-brand">Balance Board</span>
+        <button class="v-play-btn" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
+        <button class="v-mute-btn" aria-label="Toggle mute"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY / STILL PHOTOS -->
+  <section class="lifestyle-section">
+    <p class="section-eyebrow">Photography</p>
+    <h2 class="section-title">The <em>Gallery.</em></h2>
+    <div class="lifestyle-grid">
+      <div class="lifestyle-item">
+        <img src="images/caddy-swing.jpeg" alt="Caddyshack golf swing" />
+      </div>
+      <div class="lifestyle-item">
+        <img src="images/rockbros-2.jpeg" alt="Rock Bros" />
+      </div>
+      <div class="lifestyle-item">
+        <img src="images/2026-05-14_14-04-12_492.jpg" alt="Water bottle outdoor run" />
+      </div>
+      <div class="lifestyle-item">
+        <img src="images/outdoor-flex.jpg" alt="Evan Lapice outdoor flex" />
+      </div>
+      <div class="lifestyle-item">
+        <img src="images/2026-05-08_16-10-47_876.jpg" alt="Gym physique shot" />
+      </div>
+      <div class="lifestyle-item">
+        <img src="images/brook-anime.jpg" alt="Brook One Piece anime fit" />
+      </div>
+      <div class="lifestyle-item">
+        <img src="images/lifestyle-anime-brook.jpg" alt="Chain gym selfie" />
+      </div>
+      <div class="lifestyle-item">
+        <img src="images/lifestyle-gym-tall.jpg" alt="Superman shirt gym" />
+      </div>
+      <div class="lifestyle-item">
+        <img src="images/lifestyle-flex-outdoor.jpg" alt="Yellow cap gym selfie" />
+      </div>
+      <div class="lifestyle-item">
+        <img src="images/lifestyle-topgolf.jpg" alt="Night run neon vest peace sign" />
+      </div>
+      <div class="lifestyle-item">
+        <img src="images/who-am-i.jpg" alt="Post-run Akatsuki headband" />
+      </div>
+      <div class="lifestyle-item">
+        <img src="images/cyclops.png" alt="Cyclops glasses" />
+      </div>
+      <div class="lifestyle-item">
+        <img src="images/flipbelt.jpeg" alt="FlipBelt run" />
+      </div>
+      <div class="lifestyle-item">
+        <img src="images/post-run.png" alt="Post-run sit down" />
+      </div>
+    </div>
+  </section>
+
+  <!-- LET'S WORK -->
+  <section class="cta">
+    <h2 class="cta-headline">Let's<br><em>Work.</em></h2>
+    <p class="cta-availability">Available for campaigns now &nbsp;&middot;&nbsp; Deliverables in 5 days</p>
+    <div class="cta-actions">
+      <a class="btn-primary" href="mailto:lapiceugc@gmail.com">Email Me</a>
+      <a class="btn-social" href="https://www.tiktok.com/@lapice_out" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.74a8.17 8.17 0 0 0 4.78 1.53V6.82a4.85 4.85 0 0 1-1.01-.13z"/></svg>
+        TikTok
+      </a>
+      <a class="btn-social" href="https://www.instagram.com/lapice_out" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        Instagram
+      </a>
+    </div>
+  </section>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose">&times;</button>
+    <img id="lightboxImg" src="" alt="" />
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-brand">Evan Lapice &nbsp;&middot;&nbsp; @lapice_out</span>
+    <div style="display:flex;gap:24px;align-items:center;">
+      <a href="https://www.tiktok.com/@lapice_out" target="_blank" rel="noopener" style="color:rgba(240,236,228,0.4);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;">TikTok</a>
+      <a href="https://www.instagram.com/lapice_out" target="_blank" rel="noopener" style="color:rgba(240,236,228,0.4);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;">Instagram</a>
+      <span class="footer-copy">&copy; 2026 Evan Lapice</span>
+    </div>
+  </footer>
+
+  <script>
+    // Brand carousel: hover = continuous scroll, click = nudge
+    (function() {
+      var track    = document.getElementById('brandsTrack');
+      var viewport = track.parentElement;
+      var prevBtn  = document.querySelector('.brand-prev');
+      var nextBtn  = document.querySelector('.brand-next');
+      var pos      = 0;
+      var step     = 116;   // px per click-nudge (88px circle + 28px gap)
+      var speed    = 2;     // px per animation frame on hover
+      var isHover  = false;
+      var hoverDir = 0;
+      var raf;
+
+      function halfWidth() {
+        // Half the track = one full set of brands
+        return track.scrollWidth / 2;
+      }
+
+      function wrapPos() {
+        // Seamless infinite loop: when we've scrolled one full set, reset to 0
+        if (pos >= halfWidth()) pos -= halfWidth();
+        if (pos < 0) pos += halfWidth();
+      }
+
+      function applyPos(smooth) {
+        wrapPos();
+        track.style.transition = smooth ? 'transform 0.35s ease' : 'none';
+        track.style.transform  = 'translateX(-' + pos + 'px)';
+        // Arrows always fully visible since list is infinite
+        prevBtn.style.opacity = '1';
+        nextBtn.style.opacity = '1';
+      }
+
+      function loop() {
+        if (!isHover) return;
+        pos += hoverDir * speed;
+        applyPos(false);
+        raf = requestAnimationFrame(loop);
+      }
+
+      // ── PREV ──
+      prevBtn.addEventListener('mouseenter', function() {
+        isHover  = true;
+        hoverDir = -1;
+        cancelAnimationFrame(raf);
+        loop();
+      });
+      prevBtn.addEventListener('mouseleave', function() {
+        isHover = false;
+        cancelAnimationFrame(raf);
+      });
+      prevBtn.addEventListener('click', function() {
+        isHover = false;
+        cancelAnimationFrame(raf);
+        pos -= step;
+        applyPos(true);
+      });
+
+      // ── NEXT ──
+      nextBtn.addEventListener('mouseenter', function() {
+        isHover  = true;
+        hoverDir = 1;
+        cancelAnimationFrame(raf);
+        loop();
+      });
+      nextBtn.addEventListener('mouseleave', function() {
+        isHover = false;
+        cancelAnimationFrame(raf);
+      });
+      nextBtn.addEventListener('click', function() {
+        isHover = false;
+        cancelAnimationFrame(raf);
+        pos += step;
+        applyPos(true);
+      });
+
+      applyPos(false);
+    })();
+
+    // Video card interactions: first card autoplays, rest show play button
+    (function() {
+      var MUTED_SVG = '<svg viewBox="0 0 24 24" fill="white" width="12" height="12"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>';
+      var UNMUTED_SVG = '<svg viewBox="0 0 24 24" fill="white" width="12" height="12"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>';
+
+      function initGrid(gridSel, cardSel) {
+        var cards = document.querySelectorAll(gridSel + ' ' + cardSel);
+        cards.forEach(function(card, i) {
+          var video = card.querySelector('video');
+          var playBtn = card.querySelector('.v-play-btn');
+          var muteBtn = card.querySelector('.v-mute-btn');
+          if (!video) return;
+
+          // All videos start muted; show muted icon
+          video.muted = true;
+          if (muteBtn) muteBtn.innerHTML = MUTED_SVG;
+
+          // First card autoplays
+          if (i === 0) {
+            video.play().catch(function() {});
+          }
+
+          // Click anywhere on card to toggle play/pause
+          card.addEventListener('click', function() {
+            if (video.paused) {
+              video.play().catch(function() {});
+            } else {
+              video.pause();
+            }
+          });
+
+          // Play button: also toggles (stopPropagation so card click doesn't double-fire)
+          if (playBtn) {
+            playBtn.addEventListener('click', function(e) {
+              e.stopPropagation();
+              if (video.paused) {
+                video.play().catch(function() {});
+              } else {
+                video.pause();
+              }
+            });
+          }
+
+          // Show/hide play button based on video state
+          video.addEventListener('play', function() {
+            if (playBtn) playBtn.classList.add('v-hidden');
+          });
+          video.addEventListener('pause', function() {
+            if (playBtn) playBtn.classList.remove('v-hidden');
+          });
+
+          // Mute toggle (stopPropagation so card click doesn't fire too)
+          if (muteBtn) {
+            muteBtn.addEventListener('click', function(e) {
+              e.stopPropagation();
+              video.muted = !video.muted;
+              muteBtn.innerHTML = video.muted ? MUTED_SVG : UNMUTED_SVG;
+            });
+          }
+        });
+      }
+
+      initGrid('.video-grid', '.video-card');
+      initGrid('.playful-grid', '.playful-card');
+    })();
+
+    // Lightbox for gallery photos
+    (function() {
+      var lightbox = document.getElementById('lightbox');
+      var lbImg    = document.getElementById('lightboxImg');
+      var lbClose  = document.getElementById('lightboxClose');
+
+      document.querySelectorAll('.lifestyle-item img').forEach(function(img) {
+        img.addEventListener('click', function() {
+          lbImg.src = img.src;
+          lbImg.alt = img.alt;
+          lightbox.classList.add('open');
+          document.body.style.overflow = 'hidden';
+        });
+      });
+
+      function close() {
+        lightbox.classList.remove('open');
+        document.body.style.overflow = '';
+        lbImg.src = '';
+      }
+
+      lbClose.addEventListener('click', close);
+      lightbox.addEventListener('click', function(e) {
+        if (e.target === lightbox) close();
+      });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') close();
+      });
+    })();
+  </script>
+
+</body>
+</html>
