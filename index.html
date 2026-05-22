@@ -243,12 +243,13 @@
       font-size: 22px;
       width: 40px;
       height: 40px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       flex-shrink: 0;
-      transition: border-color 0.2s, color 0.2s;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
       line-height: 1;
     }
 
@@ -259,6 +260,21 @@
 
     .brand-prev { margin-right: 16px; }
     .brand-next { margin-left: 16px; }
+
+    /* Touch devices: arrows always fully visible */
+    @media (hover: none) {
+      .brand-arrow {
+        width: 44px;
+        height: 44px;
+        background: rgba(255,255,255,0.1);
+        border: 1.5px solid rgba(255,255,255,0.65);
+        color: #fff;
+        font-size: 24px;
+      }
+      .brand-arrow:active {
+        background: rgba(255,255,255,0.22);
+      }
+    }
 
     /* ── SECTION SHARED ── */
     .section-eyebrow {
@@ -1012,41 +1028,80 @@
         raf = requestAnimationFrame(loop);
       }
 
-      // ── PREV ──
-      prevBtn.addEventListener('mouseenter', function() {
-        isHover  = true;
-        hoverDir = -1;
-        cancelAnimationFrame(raf);
-        loop();
-      });
-      prevBtn.addEventListener('mouseleave', function() {
-        isHover = false;
-        cancelAnimationFrame(raf);
-      });
-      prevBtn.addEventListener('click', function() {
-        isHover = false;
-        cancelAnimationFrame(raf);
-        pos -= step;
-        applyPos(true);
-      });
+      var isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
-      // ── NEXT ──
-      nextBtn.addEventListener('mouseenter', function() {
-        isHover  = true;
-        hoverDir = 1;
-        cancelAnimationFrame(raf);
-        loop();
-      });
-      nextBtn.addEventListener('mouseleave', function() {
-        isHover = false;
-        cancelAnimationFrame(raf);
-      });
-      nextBtn.addEventListener('click', function() {
-        isHover = false;
-        cancelAnimationFrame(raf);
-        pos += step;
-        applyPos(true);
-      });
+      if (isTouch) {
+        // ── TOUCH: tap to start/reverse, double-tap same arrow to stop ──
+        var lastTapBtn  = null;
+        var lastTapTime = 0;
+
+        function handleTap(dir, btnId) {
+          var now = Date.now();
+          if (lastTapBtn === btnId && now - lastTapTime < 350) {
+            // Double-tap: stop
+            isHover = false;
+            cancelAnimationFrame(raf);
+            lastTapBtn  = null;
+            lastTapTime = 0;
+          } else {
+            // Single tap: start or reverse
+            isHover  = true;
+            hoverDir = dir;
+            cancelAnimationFrame(raf);
+            loop();
+            lastTapBtn  = btnId;
+            lastTapTime = now;
+          }
+        }
+
+        prevBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          handleTap(-1, 'prev');
+        });
+        nextBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          handleTap(1, 'next');
+        });
+
+      } else {
+        // ── MOUSE: hover to scroll continuously, click to nudge ──
+
+        // PREV
+        prevBtn.addEventListener('mouseenter', function() {
+          isHover  = true;
+          hoverDir = -1;
+          cancelAnimationFrame(raf);
+          loop();
+        });
+        prevBtn.addEventListener('mouseleave', function() {
+          isHover = false;
+          cancelAnimationFrame(raf);
+        });
+        prevBtn.addEventListener('click', function() {
+          isHover = false;
+          cancelAnimationFrame(raf);
+          pos -= step;
+          applyPos(true);
+        });
+
+        // NEXT
+        nextBtn.addEventListener('mouseenter', function() {
+          isHover  = true;
+          hoverDir = 1;
+          cancelAnimationFrame(raf);
+          loop();
+        });
+        nextBtn.addEventListener('mouseleave', function() {
+          isHover = false;
+          cancelAnimationFrame(raf);
+        });
+        nextBtn.addEventListener('click', function() {
+          isHover = false;
+          cancelAnimationFrame(raf);
+          pos += step;
+          applyPos(true);
+        });
+      }
 
       applyPos(false);
     })();
