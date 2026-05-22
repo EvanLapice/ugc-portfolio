@@ -261,19 +261,10 @@
     .brand-prev { margin-right: 16px; }
     .brand-next { margin-left: 16px; }
 
-    /* Touch devices: arrows always fully visible */
+    /* Touch devices: hide arrows, auto-spin handles it */
     @media (hover: none) {
-      .brand-arrow {
-        width: 44px;
-        height: 44px;
-        background: rgba(255,255,255,0.1);
-        border: 1.5px solid rgba(255,255,255,0.65);
-        color: #fff;
-        font-size: 24px;
-      }
-      .brand-arrow:active {
-        background: rgba(255,255,255,0.22);
-      }
+      .brand-arrow { display: none; }
+      .brands-carousel { padding: 0; }
     }
 
     /* ── SECTION SHARED ── */
@@ -668,7 +659,6 @@
       .video-grid,
       .playful-grid { grid-template-columns: repeat(2, 1fr); }
       .lifestyle-grid { grid-template-columns: repeat(2, 1fr); }
-      .brands-carousel { padding: 0 16px; }
       .brand-item { width: 72px; height: 72px; }
     }
 
@@ -1031,36 +1021,36 @@
       var isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
       if (isTouch) {
-        // ── TOUCH: tap to start/reverse, double-tap same arrow to stop ──
-        var lastTapBtn  = null;
-        var lastTapTime = 0;
+        // ── TOUCH: slow auto-spin, touch to pause and manually drag ──
+        speed    = 0.6;   // slow, smooth ticker pace
+        isHover  = true;
+        hoverDir = 1;
+        loop();           // start auto-spin immediately
 
-        function handleTap(dir, btnId) {
-          var now = Date.now();
-          if (lastTapBtn === btnId && now - lastTapTime < 350) {
-            // Double-tap: stop
-            isHover = false;
-            cancelAnimationFrame(raf);
-            lastTapBtn  = null;
-            lastTapTime = 0;
-          } else {
-            // Single tap: start or reverse
-            isHover  = true;
-            hoverDir = dir;
-            cancelAnimationFrame(raf);
-            loop();
-            lastTapBtn  = btnId;
-            lastTapTime = now;
-          }
-        }
+        var dragStartX   = 0;
+        var dragStartPos = 0;
+        var isDragging   = false;
 
-        prevBtn.addEventListener('click', function(e) {
-          e.preventDefault();
-          handleTap(-1, 'prev');
-        });
-        nextBtn.addEventListener('click', function(e) {
-          e.preventDefault();
-          handleTap(1, 'next');
+        viewport.addEventListener('touchstart', function(e) {
+          isDragging = true;
+          isHover    = false;
+          cancelAnimationFrame(raf);
+          dragStartX   = e.touches[0].clientX;
+          dragStartPos = pos;
+        }, { passive: true });
+
+        viewport.addEventListener('touchmove', function(e) {
+          if (!isDragging) return;
+          var delta = dragStartX - e.touches[0].clientX;
+          pos = dragStartPos + delta;
+          applyPos(false);
+        }, { passive: true });
+
+        viewport.addEventListener('touchend', function() {
+          isDragging = false;
+          isHover    = true;
+          hoverDir   = 1;
+          loop();   // resume auto-spin
         });
 
       } else {
