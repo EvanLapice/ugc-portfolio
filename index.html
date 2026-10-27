@@ -263,9 +263,11 @@
 
     /* Touch devices: hide arrows, auto-spin handles it */
     @media (hover: none) {
-      .brand-arrow { display: none; }
-      .brands-carousel { padding: 0; }
+      .brands-carousel { padding: 0 8px; }
+      .brand-arrow { width: 32px; height: 32px; font-size: 18px; }
+      .brand-prev { margin-right: 8px; } .brand-next { margin-left: 8px; }
     }
+    .brands-viewport { user-select: none; -webkit-user-select: none; }
 
     /* ── SECTION SHARED ── */
     .section-eyebrow {
@@ -693,6 +695,19 @@
       .hero-btn { padding: 10px 18px; }
       .v-format { bottom: 52px; font-size: 8px; }
     }
+
+    /* hero eyebrow pill (moved off the photo's knee) */
+    .hero-eyebrow { display: inline-block; margin: 0 0 14px; padding: 7px 16px; background: rgba(240,236,228,0.92); border: 1px solid var(--border); white-space: nowrap; text-shadow: none; vertical-align: baseline; }
+    .hero-line1 { left: 0; }
+    /* results row */
+    .results { display: grid; grid-template-columns: repeat(4, 1fr); max-width: 1100px; margin: 0 auto; padding: 44px 48px 8px; gap: 24px; text-align: center; }
+    .result { display: flex; flex-direction: column; gap: 6px; padding: 18px 8px; border-top: 2px solid var(--accent); }
+    .result-num { font-family: 'Playfair Display', serif; font-weight: 900; font-size: clamp(34px, 4.4vw, 56px); line-height: 1; color: var(--text); }
+    .result-label { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-mid); }
+    @media (max-width: 700px) {
+      .results { grid-template-columns: repeat(2, 1fr); padding: 32px 20px 0; gap: 12px; }
+      .hero-eyebrow { font-size: 8.5px; letter-spacing: 0.18em; padding: 6px 12px; margin-bottom: 10px; }
+    }
   </style>
 </head>
 <body>
@@ -708,7 +723,8 @@
     <img class="hero-img" src="ev peace trans.png" alt="Evan Lapice" />
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <h1 class="hero-name"><span class="hero-line1">Evan<span class="hero-eyebrow">UGC Creator &nbsp;&middot;&nbsp; Fitness &amp; Running</span></span><br><em>Lapice</em></h1>
+      <p class="hero-eyebrow">UGC Creator &nbsp;&middot;&nbsp; Fitness &amp; Running</p>
+      <h1 class="hero-name">Evan<br><em>Lapice</em></h1>
       <div class="hero-tags">
         <span class="hero-tag">Army Veteran</span>
         <span class="hero-tag">Lost 50 lbs</span>
@@ -818,6 +834,14 @@
     </div>
     <p class="brands-tagline" id="brandCount">35+ brands &amp; counting</p>
   </div>
+
+  <!-- RESULTS -->
+  <section class="results">
+    <div class="result"><span class="result-num">3M+</span><span class="result-label">Combined views</span></div>
+    <div class="result"><span class="result-num">338K</span><span class="result-label">Views on one product video</span></div>
+    <div class="result"><span class="result-num" id="resultBrands">39</span><span class="result-label">Brands worked with</span></div>
+    <div class="result"><span class="result-num">14K+</span><span class="result-label">TikTok + Instagram followers</span></div>
+  </section>
 
   <!-- UGC VIDEO GRID (5 across) -->
   <!--
@@ -956,122 +980,48 @@
   </footer>
 
   <script>
-    // Brand carousel: hover = continuous scroll, click = nudge
+    // Brand carousel: always auto-scrolls; hover pauses; drag/swipe with mouse or finger; arrows jump
     (function() {
-      var track    = document.getElementById('brandsTrack');
+      var track = document.getElementById('brandsTrack');
       var viewport = track.parentElement;
-      var prevBtn  = document.querySelector('.brand-prev');
-      var nextBtn  = document.querySelector('.brand-next');
-      var pos      = 0;
-      var step     = 116;   // px per click-nudge (88px circle + 28px gap)
-      var speed    = 2;     // px per animation frame on hover
-      var isHover  = false;
-      var hoverDir = 0;
-      var raf;
-
-      function halfWidth() {
-        // Half the track = one full set of brands
-        return track.scrollWidth / 2;
+      var prevBtn = document.querySelector('.brand-prev');
+      var nextBtn = document.querySelector('.brand-next');
+      var pos = 0, speed = 0.7, paused = false, dragging = false, moved = 0;
+      var startX = 0, startPos = 0, anim = null;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function half() { return track.scrollWidth / 2; }
+      function wrap() { var h = half(); if (!h) return; while (pos >= h) pos -= h; while (pos < 0) pos += h; }
+      function draw() { wrap(); track.style.transform = 'translateX(' + (-pos) + 'px)'; }
+      function tick() {
+        if (anim) {
+          var d = anim.to - pos; if (Math.abs(d) < 0.5) { pos = anim.to; anim = null; } else { pos += d * 0.12; }
+        } else if (!paused && !dragging && !reduce) { pos += speed; }
+        draw(); requestAnimationFrame(tick);
       }
-
-      function wrapPos() {
-        // Seamless infinite loop: when we've scrolled one full set, reset to 0
-        if (pos >= halfWidth()) pos -= halfWidth();
-        if (pos < 0) pos += halfWidth();
-      }
-
-      function applyPos(smooth) {
-        wrapPos();
-        track.style.transition = smooth ? 'transform 0.35s ease' : 'none';
-        track.style.transform  = 'translateX(-' + pos + 'px)';
-        // Arrows always fully visible since list is infinite
-        prevBtn.style.opacity = '1';
-        nextBtn.style.opacity = '1';
-      }
-
-      function loop() {
-        if (!isHover) return;
-        pos += hoverDir * speed;
-        applyPos(false);
-        raf = requestAnimationFrame(loop);
-      }
-
-      var isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-
-      if (isTouch) {
-        // ── TOUCH: slow auto-spin, touch to pause and manually drag ──
-        speed    = 0.6;   // slow, smooth ticker pace
-        isHover  = true;
-        hoverDir = 1;
-        loop();           // start auto-spin immediately
-
-        var dragStartX   = 0;
-        var dragStartPos = 0;
-        var isDragging   = false;
-
-        viewport.addEventListener('touchstart', function(e) {
-          isDragging = true;
-          isHover    = false;
-          cancelAnimationFrame(raf);
-          dragStartX   = e.touches[0].clientX;
-          dragStartPos = pos;
-        }, { passive: true });
-
-        viewport.addEventListener('touchmove', function(e) {
-          if (!isDragging) return;
-          var delta = dragStartX - e.touches[0].clientX;
-          pos = dragStartPos + delta;
-          applyPos(false);
-        }, { passive: true });
-
-        viewport.addEventListener('touchend', function() {
-          isDragging = false;
-          isHover    = true;
-          hoverDir   = 1;
-          loop();   // resume auto-spin
-        });
-
-      } else {
-        // ── MOUSE: hover to scroll continuously, click to nudge ──
-
-        // PREV
-        prevBtn.addEventListener('mouseenter', function() {
-          isHover  = true;
-          hoverDir = -1;
-          cancelAnimationFrame(raf);
-          loop();
-        });
-        prevBtn.addEventListener('mouseleave', function() {
-          isHover = false;
-          cancelAnimationFrame(raf);
-        });
-        prevBtn.addEventListener('click', function() {
-          isHover = false;
-          cancelAnimationFrame(raf);
-          pos -= step;
-          applyPos(true);
-        });
-
-        // NEXT
-        nextBtn.addEventListener('mouseenter', function() {
-          isHover  = true;
-          hoverDir = 1;
-          cancelAnimationFrame(raf);
-          loop();
-        });
-        nextBtn.addEventListener('mouseleave', function() {
-          isHover = false;
-          cancelAnimationFrame(raf);
-        });
-        nextBtn.addEventListener('click', function() {
-          isHover = false;
-          cancelAnimationFrame(raf);
-          pos += step;
-          applyPos(true);
-        });
-      }
-
-      applyPos(false);
+      track.style.transition = 'none';
+      viewport.style.cursor = 'grab';
+      viewport.style.touchAction = 'pan-y';
+      viewport.addEventListener('mouseenter', function() { paused = true; });
+      viewport.addEventListener('mouseleave', function() { paused = false; });
+      viewport.addEventListener('pointerdown', function(e) {
+        dragging = true; moved = 0; anim = null; startX = e.clientX; startPos = pos;
+        viewport.style.cursor = 'grabbing';
+        if (viewport.setPointerCapture) viewport.setPointerCapture(e.pointerId);
+      });
+      viewport.addEventListener('pointermove', function(e) {
+        if (!dragging) return; var dx = e.clientX - startX; moved = Math.max(moved, Math.abs(dx)); pos = startPos - dx;
+      });
+      function endDrag() { dragging = false; viewport.style.cursor = 'grab'; }
+      viewport.addEventListener('pointerup', endDrag);
+      viewport.addEventListener('pointercancel', endDrag);
+      viewport.addEventListener('wheel', function(e) {
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) { e.preventDefault(); anim = null; pos += e.deltaX; }
+      }, { passive: false });
+      var jump = 116 * 3;
+      if (prevBtn) prevBtn.addEventListener('click', function() { anim = { to: (anim ? anim.to : pos) - jump }; });
+      if (nextBtn) nextBtn.addEventListener('click', function() { anim = { to: (anim ? anim.to : pos) + jump }; });
+      track.querySelectorAll('img').forEach(function(i) { i.draggable = false; });
+      requestAnimationFrame(tick);
     })();
 
     // Live brand count (unique logos that actually loaded)
@@ -1081,6 +1031,7 @@
       var n = Object.keys(names).length;
       var el = document.getElementById('brandCount');
       if (el && n) el.innerHTML = n + ' brands &amp; counting';
+      var rb = document.getElementById('resultBrands'); if (rb && n) rb.textContent = n;
     });
 
     // Video card interactions: first card autoplays, rest show play button
