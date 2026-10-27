@@ -670,6 +670,29 @@
       .cta-actions { flex-direction: column; align-items: flex-start; gap: 16px; }
       footer { flex-direction: column; gap: 8px; text-align: center; }
     }
+
+    /* ── 2026-10 redesign additions ── */
+    .hero-actions { margin-top: 22px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .hero-btn { display: inline-block; padding: 11px 26px; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; color: var(--text); border: 1px solid var(--text); background: rgba(240,236,228,0.85); transition: background 0.2s, color 0.2s; }
+    .hero-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .hero-btn-dark { background: var(--text); color: var(--bg); }
+    .v-format { position: absolute; bottom: 56px; left: 12px; right: 12px; font-size: 9px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.6); z-index: 3; pointer-events: none; }
+    .v-brand { z-index: 3; pointer-events: none; }
+    .embed-card { border: none; background: #000; }
+    .embed-card iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .embed-label { position: static; display: block; margin-top: 8px; color: rgba(240,236,228,0.55); }
+    .playful-grid .embed-card { overflow: visible; margin-bottom: 26px; }
+    .embed-card .embed-label { position: absolute; top: 100%; bottom: auto; left: 0; }
+    @media (max-width: 600px) {
+      .hero { max-height: 680px; }
+      .hero-content { padding: 0 16px; bottom: 28px; }
+      .hero-line1 { left: 0; display: block; }
+      .hero-eyebrow { display: block; margin: 0 0 10px; font-size: 9px; letter-spacing: 0.2em; white-space: normal; }
+      .hero-name { font-size: clamp(52px, 17vw, 80px); }
+      .hero-actions { margin-top: 16px; }
+      .hero-btn { padding: 10px 18px; }
+      .v-format { bottom: 52px; font-size: 8px; }
+    }
   </style>
 </head>
 <body>
@@ -689,10 +712,14 @@
       <div class="hero-tags">
         <span class="hero-tag">Army Veteran</span>
         <span class="hero-tag">Lost 50 lbs</span>
-        <span class="hero-tag">NYC Marathon 2026</span>
+        <span class="hero-tag">Training for Space Coast</span>
         <span class="hero-tag">Anime Enthusiast</span>
         <span class="hero-tag">@lapice_out</span>
         <span class="hero-tag">3M+ Combined Views</span>
+      </div>
+      <div class="hero-actions">
+        <a class="hero-btn hero-btn-dark" href="#work">View Work</a>
+        <a class="hero-btn" href="mailto:lapiceugc@gmail.com">Email Me</a>
       </div>
     </div>
   </section>
@@ -708,6 +735,10 @@
           <!-- set 1 -->
           <div class="brand-item"><img src="logos/invicta_kuru.jpg" alt="Invicta Kuru"></div>
           <div class="brand-item"><img src="logos/zensah.jpg" alt="Zensah"></div>
+          <div class="brand-item"><img src="logos/streetstrider.jpg" alt="StreetStrider"></div>
+          <div class="brand-item"><img src="logos/legion.jpg" alt="Legion" onerror="this.parentElement.remove()"></div>
+          <div class="brand-item"><img src="logos/xtep.jpg" alt="Xtep" onerror="this.parentElement.remove()"></div>
+          <div class="brand-item"><img src="logos/hikebeast.jpg" alt="HikeBeast" onerror="this.parentElement.remove()"></div>
           <div class="brand-item"><img src="logos/gnc.jpg" alt="GNC"></div>
           <div class="brand-item"><img src="logos/optimum_nutrition.jpg" alt="Optimum Nutrition"></div>
           <div class="brand-item"><img src="logos/dr_squatch.jpg" alt="Dr. Squatch"></div>
@@ -717,7 +748,7 @@
           <div class="brand-item"><img src="logos/flipbelt.jpg" alt="FlipBelt"></div>
           <div class="brand-item"><img src="logos/gymreapers.jpg" alt="Gym Reapers"></div>
           <div class="brand-item"><img src="logos/rockbros.jpg" alt="Rock Bros"></div>
-          <div class="brand-item"><img src="logos/muscletech.jpg" alt="MuscleTest"></div>
+          <div class="brand-item"><img src="logos/muscletech.jpg" alt="MuscleTech"></div>
           <div class="brand-item"><img src="logos/cutler_nutrition.jpg" alt="Cutler Nutrition"></div>
           <div class="brand-item"><img src="logos/sixstar_pro.jpg" alt="Six Star Pro"></div>
           <div class="brand-item"><img src="logos/force_factor.jpg" alt="Force Factor"></div>
@@ -744,6 +775,10 @@
           <!-- set 2 (duplicate for seamless loop) -->
           <div class="brand-item"><img src="logos/invicta_kuru.jpg" alt="Invicta Kuru"></div>
           <div class="brand-item"><img src="logos/zensah.jpg" alt="Zensah"></div>
+          <div class="brand-item"><img src="logos/streetstrider.jpg" alt="StreetStrider"></div>
+          <div class="brand-item"><img src="logos/legion.jpg" alt="Legion" onerror="this.parentElement.remove()"></div>
+          <div class="brand-item"><img src="logos/xtep.jpg" alt="Xtep" onerror="this.parentElement.remove()"></div>
+          <div class="brand-item"><img src="logos/hikebeast.jpg" alt="HikeBeast" onerror="this.parentElement.remove()"></div>
           <div class="brand-item"><img src="logos/gnc.jpg" alt="GNC"></div>
           <div class="brand-item"><img src="logos/optimum_nutrition.jpg" alt="Optimum Nutrition"></div>
           <div class="brand-item"><img src="logos/dr_squatch.jpg" alt="Dr. Squatch"></div>
@@ -753,7 +788,7 @@
           <div class="brand-item"><img src="logos/flipbelt.jpg" alt="FlipBelt"></div>
           <div class="brand-item"><img src="logos/gymreapers.jpg" alt="Gym Reapers"></div>
           <div class="brand-item"><img src="logos/rockbros.jpg" alt="Rock Bros"></div>
-          <div class="brand-item"><img src="logos/muscletech.jpg" alt="MuscleTest"></div>
+          <div class="brand-item"><img src="logos/muscletech.jpg" alt="MuscleTech"></div>
           <div class="brand-item"><img src="logos/cutler_nutrition.jpg" alt="Cutler Nutrition"></div>
           <div class="brand-item"><img src="logos/sixstar_pro.jpg" alt="Six Star Pro"></div>
           <div class="brand-item"><img src="logos/force_factor.jpg" alt="Force Factor"></div>
@@ -781,7 +816,7 @@
       </div>
       <button class="brand-arrow brand-next" aria-label="Next brands">&#8250;</button>
     </div>
-    <p class="brands-tagline">35 brands &amp; counting</p>
+    <p class="brands-tagline" id="brandCount">35+ brands &amp; counting</p>
   </div>
 
   <!-- UGC VIDEO GRID (5 across) -->
@@ -790,54 +825,50 @@
     with: <video class="v-thumb" autoplay muted loop playsinline src="videos/filename.mp4"></video>
     Keep .v-overlay, .v-brand, and .v-tiktok as-is.
   -->
-  <section class="content-section">
+  <section class="content-section" id="work">
     <div class="section-header">
       <p class="section-eyebrow">Work Samples</p>
       <h2 class="section-title">Scripted &amp; <em>Authentic.</em></h2>
     </div>
     <div class="video-grid">
 
-      <!-- Card 1: OG Sea Moss (autoplays) -->
       <div class="video-card">
-        <video class="v-thumb" muted loop playsinline src="Tiktok Videos UGC scripted/OG Sea Moss.mov"></video>
+        <video class="v-thumb" muted loop playsinline preload="metadata" poster="media/streetstrider.jpg" src="media/streetstrider.mp4"></video>
         <div class="v-overlay"></div>
-        <span class="v-brand">OG Sea Moss</span>
+        <span class="v-format">Equipment demo</span>
+        <span class="v-brand">StreetStrider</span>
         <button class="v-play-btn v-hidden" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
         <button class="v-mute-btn" aria-label="Toggle mute"></button>
       </div>
-
-      <!-- Card 2: Soulful Sazon -->
       <div class="video-card">
-        <video class="v-thumb" muted loop playsinline src="Tiktok Videos UGC scripted/soulfull sazon food review voiceover.mp4"></video>
+        <video class="v-thumb" muted loop playsinline preload="none" poster="media/og-sea-moss.jpg" src="media/og-sea-moss.mp4"></video>
         <div class="v-overlay"></div>
-        <span class="v-brand">Soulful Sazon</span>
+        <span class="v-format">Scripted testimonial</span>
+        <span class="v-brand">OG Sea Moss</span>
         <button class="v-play-btn" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
         <button class="v-mute-btn" aria-label="Toggle mute"></button>
       </div>
-
-      <!-- Card 3: Rock Bros -->
       <div class="video-card">
-        <video class="v-thumb" muted loop playsinline src="Tiktok Videos UGC scripted/Rockbros water bottle 1.mp4"></video>
+        <video class="v-thumb" muted loop playsinline preload="none" poster="media/rockbros.jpg" src="media/rockbros.mp4"></video>
         <div class="v-overlay"></div>
+        <span class="v-format">Product demo</span>
         <span class="v-brand">Rock Bros</span>
         <button class="v-play-btn" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
         <button class="v-mute-btn" aria-label="Toggle mute"></button>
       </div>
-
-      <!-- Card 4: Neleus -->
       <div class="video-card">
-        <video class="v-thumb" muted loop playsinline src="Tiktok Videos UGC scripted/Neleus fall sale do voiceover.mp4"></video>
+        <video class="v-thumb" muted loop playsinline preload="none" poster="media/gym-reapers.jpg" src="media/gym-reapers.mp4"></video>
         <div class="v-overlay"></div>
-        <span class="v-brand">Neleus</span>
+        <span class="v-format">Product demo</span>
+        <span class="v-brand">Gym Reapers</span>
         <button class="v-play-btn" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
         <button class="v-mute-btn" aria-label="Toggle mute"></button>
       </div>
-
-      <!-- Card 5: Gym Reaper -->
       <div class="video-card">
-        <video class="v-thumb" muted loop playsinline src="Tiktok Videos UGC scripted/gym reapers wrist strap.mp4"></video>
+        <video class="v-thumb" muted loop playsinline preload="none" poster="media/neleus.jpg" src="media/neleus.mp4"></video>
         <div class="v-overlay"></div>
-        <span class="v-brand">Gym Reaper</span>
+        <span class="v-format">Apparel voiceover</span>
+        <span class="v-brand">Neleus</span>
         <button class="v-play-btn" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
         <button class="v-mute-btn" aria-label="Toggle mute"></button>
       </div>
@@ -848,72 +879,25 @@
   <!-- PLAYFUL + CREATIVE -->
   <section class="playful-section">
     <div class="section-header">
-      <h2 class="section-title">Playful <em>+ Creative.</em></h2>
+      <p class="section-eyebrow">Posted on @lapice_out</p>
+      <h2 class="section-title">Live on <em>My Page.</em></h2>
     </div>
     <div class="playful-grid">
-      <!-- Playful Card 1: Invicta Kuru Vegeta Modeling (autoplays) -->
-      <div class="playful-card">
-        <video class="v-thumb" muted loop playsinline src="Tiktok Videos UGC Playful or personality/Invicta Kuru Vegeta shorts Modeling.mov"></video>
-        <div class="v-overlay"></div>
-        <span class="v-brand">Invicta Kuru</span>
-        <button class="v-play-btn v-hidden" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
-        <button class="v-mute-btn" aria-label="Toggle mute"></button>
+      <div class="playful-card embed-card">
+        <iframe loading="lazy" src="https://www.tiktok.com/player/v1/7684427779449834782?music_info=0&amp;description=0&amp;rel=0&amp;closed_caption=1" allow="fullscreen; autoplay" title="Xtep TikTok"></iframe>
+        <span class="v-format embed-label">Shoe review &middot; Xtep</span>
       </div>
-      <!-- Playful Card 2: Alani Nu -->
-      <div class="playful-card">
-        <video class="v-thumb" muted loop playsinline src="Tiktok Videos UGC Playful or personality/alani nu test test.mp4"></video>
-        <div class="v-overlay"></div>
-        <span class="v-brand">Alani Nu</span>
-        <button class="v-play-btn" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
-        <button class="v-mute-btn" aria-label="Toggle mute"></button>
+      <div class="playful-card embed-card">
+        <iframe loading="lazy" src="https://www.tiktok.com/player/v1/7688054330242436382?music_info=0&amp;description=0&amp;rel=0&amp;closed_caption=1" allow="fullscreen; autoplay" title="HikeBeast TikTok"></iframe>
+        <span class="v-format embed-label">Apparel in use &middot; HikeBeast</span>
       </div>
-      <!-- Playful Card 3: Invicta Kuru Bench With Me -->
-      <div class="playful-card">
-        <video class="v-thumb" muted loop playsinline src="Tiktok Videos UGC Playful or personality/invicta kuru bench with me.mov"></video>
-        <div class="v-overlay"></div>
-        <span class="v-brand">Invicta Kuru</span>
-        <button class="v-play-btn" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
-        <button class="v-mute-btn" aria-label="Toggle mute"></button>
+      <div class="playful-card embed-card">
+        <iframe loading="lazy" src="https://www.tiktok.com/player/v1/7676552173483871519?music_info=0&amp;description=0&amp;rel=0&amp;closed_caption=1" allow="fullscreen; autoplay" title="Invicta Kuru TikTok"></iframe>
+        <span class="v-format embed-label">Product showcase &middot; Invicta Kuru</span>
       </div>
-      <!-- Playful Card 4: PGA Hope -->
-      <div class="playful-card">
-        <video class="v-thumb" muted loop playsinline src="Tiktok Videos UGC Playful or personality/pga hope.mp4"></video>
-        <div class="v-overlay"></div>
-        <span class="v-brand">PGA Hope</span>
-        <button class="v-play-btn" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
-        <button class="v-mute-btn" aria-label="Toggle mute"></button>
-      </div>
-      <!-- Playful Card 5: Invicta Kuru Unboxing Anime Shorts -->
-      <div class="playful-card">
-        <video class="v-thumb" muted loop playsinline src="Tiktok Videos UGC Playful or personality/Invicta Kuru Unboxing Anime Shorts.mov"></video>
-        <div class="v-overlay"></div>
-        <span class="v-brand">Invicta Kuru</span>
-        <button class="v-play-btn" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
-        <button class="v-mute-btn" aria-label="Toggle mute"></button>
-      </div>
-      <!-- Playful Card 6: Shokz -->
-      <div class="playful-card">
-        <video class="v-thumb" muted loop playsinline src="Tiktok Videos UGC Playful or personality/shokz headphones.mp4"></video>
-        <div class="v-overlay"></div>
-        <span class="v-brand">Shokz</span>
-        <button class="v-play-btn" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
-        <button class="v-mute-btn" aria-label="Toggle mute"></button>
-      </div>
-      <!-- Playful Card 7: Balance Board -->
-      <div class="playful-card">
-        <video class="v-thumb" muted loop playsinline src="Tiktok Videos UGC Playful or personality/soulyis balance board.mp4"></video>
-        <div class="v-overlay"></div>
-        <span class="v-brand">Balance Board</span>
-        <button class="v-play-btn" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
-        <button class="v-mute-btn" aria-label="Toggle mute"></button>
-      </div>
-      <!-- Playful Card 8: Cyclops -->
-      <div class="playful-card">
-        <video class="v-thumb" muted loop playsinline src="Tiktok Videos UGC Playful or personality/cyclops glasses.mp4"></video>
-        <div class="v-overlay"></div>
-        <span class="v-brand">Cyclops</span>
-        <button class="v-play-btn" aria-label="Play"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
-        <button class="v-mute-btn" aria-label="Toggle mute"></button>
+      <div class="playful-card embed-card">
+        <iframe loading="lazy" src="https://www.tiktok.com/player/v1/7691501486848658718?music_info=0&amp;description=0&amp;rel=0&amp;closed_caption=1" allow="fullscreen; autoplay" title="Legion TikTok"></iframe>
+        <span class="v-format embed-label">Supplement &middot; Legion</span>
       </div>
     </div>
   </section>
@@ -923,54 +907,16 @@
     <p class="section-eyebrow">Photography</p>
     <h2 class="section-title">The <em>Gallery.</em></h2>
     <div class="lifestyle-grid">
-      <div class="lifestyle-item">
-        <img src="images/gro-running-gear.webp" alt="GRO running gear" />
-      </div>
-      <div class="lifestyle-item">
-        <img src="images/noshirt-flipbelt-shorts.webp" alt="No shirt FlipBelt shorts" />
-      </div>
-      <div class="lifestyle-item">
-        <img src="images/caddy-swing.jpeg" alt="Caddyshack golf swing" />
-      </div>
-      <div class="lifestyle-item">
-        <img src="images/rockbros-2.jpeg" alt="Rock Bros" />
-      </div>
-      <div class="lifestyle-item">
-        <img src="images/2026-05-14_14-04-12_492.jpg" alt="Water bottle outdoor run" />
-      </div>
-      <div class="lifestyle-item">
-        <img src="images/outdoor-flex.jpg" alt="Evan Lapice outdoor flex" />
-      </div>
-      <div class="lifestyle-item">
-        <img src="images/2026-05-08_16-10-47_876.jpg" alt="Gym physique shot" />
-      </div>
-      <div class="lifestyle-item">
-        <img src="images/brook-anime.jpg" alt="Brook One Piece anime fit" />
-      </div>
-      <div class="lifestyle-item">
-        <img src="images/lifestyle-anime-brook.jpg" alt="Chain gym selfie" />
-      </div>
-      <div class="lifestyle-item">
-        <img src="images/lifestyle-gym-tall.jpg" alt="Superman shirt gym" />
-      </div>
-      <div class="lifestyle-item">
-        <img src="images/lifestyle-flex-outdoor.jpg" alt="Yellow cap gym selfie" />
-      </div>
-      <div class="lifestyle-item">
-        <img src="images/lifestyle-topgolf.jpg" alt="Night run neon vest peace sign" />
-      </div>
-      <div class="lifestyle-item">
-        <img src="images/who-am-i.jpg" alt="Post-run Akatsuki headband" />
-      </div>
-      <div class="lifestyle-item">
-        <img src="images/cyclops.png" alt="Cyclops glasses" />
-      </div>
-      <div class="lifestyle-item">
-        <img src="images/flipbelt.jpeg" alt="FlipBelt run" />
-      </div>
-      <div class="lifestyle-item">
-        <img src="images/post-run.png" alt="Post-run sit down" />
-      </div>
+      <div class="lifestyle-item"><img src="images/spartan-medal.jpg" alt="Spartan Super 10K medals" loading="lazy" onerror="this.parentElement.remove()" /></div>
+      <div class="lifestyle-item"><img src="images/web/gro-running-gear.jpg" alt="Grit Running Orlando race kit" loading="lazy" /></div>
+      <div class="lifestyle-item"><img src="images/web/rockbros-bottle.jpg" alt="Rock Bros soft flask" loading="lazy" /></div>
+      <div class="lifestyle-item"><img src="images/web/flipbelt-outdoor.jpg" alt="FlipBelt shorts outdoor" loading="lazy" /></div>
+      <div class="lifestyle-item"><img src="images/5k-podium.jpg" alt="5K podium" loading="lazy" onerror="this.parentElement.remove()" /></div>
+      <div class="lifestyle-item"><img src="images/web/flipbelt-run.jpg" alt="FlipBelt run" loading="lazy" /></div>
+      <div class="lifestyle-item"><img src="images/web/golf-swing.jpg" alt="Golf swing" loading="lazy" /></div>
+      <div class="lifestyle-item"><img src="images/web/post-run.jpg" alt="Post-run" loading="lazy" /></div>
+      <div class="lifestyle-item"><img src="images/web/outdoor-physique.jpg" alt="Outdoor training" loading="lazy" /></div>
+      <div class="lifestyle-item"><img src="images/web/water-bottle-run.jpg" alt="Hydration on the run" loading="lazy" /></div>
     </div>
   </section>
 
@@ -1125,6 +1071,15 @@
 
       applyPos(false);
     })();
+
+    // Live brand count (unique logos that actually loaded)
+    window.addEventListener('load', function() {
+      var names = {};
+      document.querySelectorAll('#brandsTrack .brand-item img').forEach(function(i){ if (i.naturalWidth) names[i.alt] = 1; });
+      var n = Object.keys(names).length;
+      var el = document.getElementById('brandCount');
+      if (el && n) el.innerHTML = n + ' brands &amp; counting';
+    });
 
     // Video card interactions: first card autoplays, rest show play button
     (function() {
