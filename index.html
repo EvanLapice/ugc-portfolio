@@ -299,7 +299,7 @@
 
     .video-grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 8px;
     }
 
@@ -699,18 +699,29 @@
     /* hero eyebrow pill (moved off the photo's knee) */
     .hero-eyebrow { display: inline-block; margin: 0 0 14px; padding: 7px 16px; background: rgba(240,236,228,0.92); border: 1px solid var(--border); white-space: nowrap; text-shadow: none; vertical-align: baseline; }
     .hero-line1 { left: 0; }
-    /* results row */
-    .results { display: grid; grid-template-columns: repeat(4, 1fr); max-width: 1100px; margin: 0 auto; padding: 44px 48px 8px; gap: 24px; text-align: center; }
-    .result { display: flex; flex-direction: column; gap: 6px; padding: 18px 8px; border-top: 2px solid var(--accent); }
-    .result-num { font-family: 'Playfair Display', serif; font-weight: 900; font-size: clamp(34px, 4.4vw, 56px); line-height: 1; color: var(--text); }
-    .result-label { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-mid); }
     @media (max-width: 700px) {
-      .results { grid-template-columns: repeat(2, 1fr); padding: 32px 20px 0; gap: 12px; }
       .hero-eyebrow { font-size: 8.5px; letter-spacing: 0.18em; padding: 6px 12px; margin-bottom: 10px; }
     }
+
+    .video-grid { gap: 20px; max-width: 1080px; margin: 0 auto; }
+    .section-intro { font-size: 16px; line-height: 1.7; max-width: 680px; margin-top: 20px; }
+    .section-intro a { color: inherit; text-underline-offset: 4px; }
+    .service-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 32px; margin: 32px 0; }
+    .service-grid article { border-top: 2px solid var(--accent); padding-top: 20px; }
+    .service-grid h3 { font-size: 20px; margin-bottom: 12px; }
+    .service-grid p { font-size: 15px; line-height: 1.8; }
+    .v-expand { position: absolute; right: 12px; top: 12px; z-index: 4; background: #111d; color: white; border: 1px solid #fff8; padding: 10px; cursor: pointer; }
+    .video-dialog { margin: auto; border: 0; padding: 48px 12px 12px; background: #111; color: white; max-width: 95vw; max-height: 95dvh; }
+    .video-dialog::backdrop { background: #000d; }
+    .video-dialog video { display: block; max-width: 85vw; height: 78dvh; }
+    .video-dialog button { position: absolute; top: 10px; right: 12px; background: transparent; color: white; border: 1px solid #fff8; padding: 6px 12px; cursor: pointer; }
+    @media (max-width: 700px) { .service-grid { grid-template-columns: 1fr; gap: 24px; } .hero-eyebrow { white-space: normal; } }
+    @media (max-width: 600px) { .video-grid { grid-template-columns: 1fr; max-width: 360px; gap: 24px; } }
   </style>
 </head>
 <body>
+
+  <dialog class="video-dialog" aria-label="Expanded video"><button type="button">Close</button><video controls playsinline></video></dialog>
 
   <!-- NAV -->
   <nav>
@@ -731,7 +742,6 @@
         <span class="hero-tag">Training for Space Coast</span>
         <span class="hero-tag">Anime Enthusiast</span>
         <span class="hero-tag">@lapice_out</span>
-        <span class="hero-tag">3M+ Combined Views</span>
       </div>
       <div class="hero-actions">
         <a class="hero-btn hero-btn-dark" href="#work">View Work</a>
@@ -749,101 +759,93 @@
         <!-- Brands duplicated for seamless infinite loop -->
         <div class="brands-track" id="brandsTrack">
           <!-- set 1 -->
-          <div class="brand-item"><img src="logos/invicta_kuru.jpg" alt="Invicta Kuru"></div>
-          <div class="brand-item"><img src="logos/zensah.jpg" alt="Zensah"></div>
-          <div class="brand-item"><img src="logos/streetstrider.jpg" alt="StreetStrider"></div>
-          <div class="brand-item"><img src="logos/legion.jpg" alt="Legion" onerror="this.parentElement.remove()"></div>
-          <div class="brand-item"><img src="logos/xtep.jpg" alt="Xtep" onerror="this.parentElement.remove()"></div>
-          <div class="brand-item"><img src="logos/hikebeast.jpg" alt="HikeBeast" onerror="this.parentElement.remove()"></div>
-          <div class="brand-item"><img src="logos/gnc.jpg" alt="GNC"></div>
-          <div class="brand-item"><img src="logos/optimum_nutrition.jpg" alt="Optimum Nutrition"></div>
-          <div class="brand-item"><img src="logos/dr_squatch.jpg" alt="Dr. Squatch"></div>
-          <div class="brand-item"><img src="logos/gorilla_mind.jpg" alt="Gorilla Mind"></div>
-          <div class="brand-item"><img src="logos/shokz.jpg" alt="Shokz"></div>
-          <div class="brand-item"><img src="logos/neleus.png" alt="Neleus"></div>
-          <div class="brand-item"><img src="logos/flipbelt.jpg" alt="FlipBelt"></div>
-          <div class="brand-item"><img src="logos/gymreapers.jpg" alt="Gym Reapers"></div>
-          <div class="brand-item"><img src="logos/rockbros.jpg" alt="Rock Bros"></div>
-          <div class="brand-item"><img src="logos/muscletech.jpg" alt="MuscleTech"></div>
-          <div class="brand-item"><img src="logos/cutler_nutrition.jpg" alt="Cutler Nutrition"></div>
-          <div class="brand-item"><img src="logos/sixstar_pro.jpg" alt="Six Star Pro"></div>
-          <div class="brand-item"><img src="logos/force_factor.jpg" alt="Force Factor"></div>
-          <div class="brand-item"><img src="logos/snap_supplements.jpg" alt="Snap Supplements"></div>
-          <div class="brand-item"><img src="logos/kos.jpg" alt="KOS"></div>
-          <div class="brand-item"><img src="logos/met_rx.jpg" alt="Met-Rx"></div>
-          <div class="brand-item"><img src="logos/perfect_sports_usa.webp" alt="Perfect Sports"></div>
-          <div class="brand-item"><img src="logos/get_raw_nutrition.png" alt="Get Raw Nutrition"></div>
-          <div class="brand-item"><img src="logos/old_school_labs.jpg" alt="Old School Labs"></div>
-          <div class="brand-item"><img src="logos/g2g_protein_bar.jpg" alt="G2G Protein Bar"></div>
-          <div class="brand-item"><img src="logos/raycon.jpg" alt="Raycon"></div>
-          <div class="brand-item"><img src="logos/centric.jpg" alt="Centric"></div>
-          <div class="brand-item"><img src="logos/saltstick.jpg" alt="SaltStick"></div>
-          <div class="brand-item"><img src="logos/intake_breathing.jpg" alt="Intake Breathing"></div>
-          <div class="brand-item"><img src="logos/true_sea_moss.jpg" alt="True Sea Moss"></div>
-          <div class="brand-item"><img src="logos/tralloom.png" alt="Tralloom"></div>
-          <div class="brand-item"><img src="logos/cyclotron_pickleball.jpg" alt="Cyclotron Pickleball"></div>
-          <div class="brand-item"><img src="logos/drywater.jpg" alt="DryWater"></div>
-          <div class="brand-item"><img src="logos/inkhausstore.webp" alt="InkHaus Store"></div>
-          <div class="brand-item"><img src="logos/birdman_life.jpg" alt="Birdman Life"></div>
-          <div class="brand-item"><img src="logos/herfantasybox.jpg" alt="HerFantasyBox"></div>
-          <div class="brand-item"><img src="logos/hererope_fitness.jpg" alt="HereRope Fitness"></div>
-          <div class="brand-item"><img src="logos/taste_flavor_co.jpg" alt="Taste Flavor Co."></div>
+          <div class="brand-item"><img src="Logos/invicta_kuru.jpg" alt="Invicta Kuru"></div>
+          <div class="brand-item"><img src="Logos/zensah.jpg" alt="Zensah"></div>
+          <div class="brand-item"><img src="Logos/streetstrider.jpg" alt="StreetStrider"></div>
+          <div class="brand-item"><img src="Logos/legion.jpg" alt="Legion" onerror="this.parentElement.remove()"></div>
+          <div class="brand-item"><img src="Logos/xtep.jpg" alt="Xtep" onerror="this.parentElement.remove()"></div>
+          <div class="brand-item"><img src="Logos/hikebeast.jpg" alt="HikeBeast" onerror="this.parentElement.remove()"></div>
+          <div class="brand-item"><img src="Logos/gnc.jpg" alt="GNC"></div>
+          <div class="brand-item"><img src="Logos/optimum_nutrition.jpg" alt="Optimum Nutrition"></div>
+          <div class="brand-item"><img src="Logos/dr_squatch.jpg" alt="Dr. Squatch"></div>
+          <div class="brand-item"><img src="Logos/gorilla_mind.jpg" alt="Gorilla Mind"></div>
+          <div class="brand-item"><img src="Logos/shokz.jpg" alt="Shokz"></div>
+          <div class="brand-item"><img src="Logos/neleus.png" alt="Neleus"></div>
+          <div class="brand-item"><img src="Logos/flipbelt.jpg" alt="FlipBelt"></div>
+          <div class="brand-item"><img src="Logos/gymreapers.jpg" alt="Gym Reapers"></div>
+          <div class="brand-item"><img src="Logos/rockbros.jpg" alt="Rock Bros"></div>
+          <div class="brand-item"><img src="Logos/muscletech.jpg" alt="MuscleTech"></div>
+          <div class="brand-item"><img src="Logos/cutler_nutrition.jpg" alt="Cutler Nutrition"></div>
+          <div class="brand-item"><img src="Logos/sixstar_pro.jpg" alt="Six Star Pro"></div>
+          <div class="brand-item"><img src="Logos/force_factor.jpg" alt="Force Factor"></div>
+          <div class="brand-item"><img src="Logos/snap_supplements.jpg" alt="Snap Supplements"></div>
+          <div class="brand-item"><img src="Logos/kos.jpg" alt="KOS"></div>
+          <div class="brand-item"><img src="Logos/met_rx.jpg" alt="Met-Rx"></div>
+          <div class="brand-item"><img src="Logos/perfect_sports_usa.webp" alt="Perfect Sports"></div>
+          <div class="brand-item"><img src="Logos/get_raw_nutrition.png" alt="Get Raw Nutrition"></div>
+          <div class="brand-item"><img src="Logos/old_school_labs.jpg" alt="Old School Labs"></div>
+          <div class="brand-item"><img src="Logos/g2g_protein_bar.jpg" alt="G2G Protein Bar"></div>
+          <div class="brand-item"><img src="Logos/raycon.jpg" alt="Raycon"></div>
+          <div class="brand-item"><img src="Logos/centric.jpg" alt="Centric"></div>
+          <div class="brand-item"><img src="Logos/saltstick.jpg" alt="SaltStick"></div>
+          <div class="brand-item"><img src="Logos/intake_breathing.jpg" alt="Intake Breathing"></div>
+          <div class="brand-item"><img src="Logos/true_sea_moss.jpg" alt="True Sea Moss"></div>
+          <div class="brand-item"><img src="Logos/tralloom.png" alt="Tralloom"></div>
+          <div class="brand-item"><img src="Logos/cyclotron_pickleball.jpg" alt="Cyclotron Pickleball"></div>
+          <div class="brand-item"><img src="Logos/drywater.jpg" alt="DryWater"></div>
+          <div class="brand-item"><img src="Logos/inkhausstore.webp" alt="InkHaus Store"></div>
+          <div class="brand-item"><img src="Logos/birdman_life.jpg" alt="Birdman Life"></div>
+          <div class="brand-item"><img src="Logos/herfantasybox.jpg" alt="HerFantasyBox"></div>
+          <div class="brand-item"><img src="Logos/hererope_fitness.jpg" alt="HereRope Fitness"></div>
+          <div class="brand-item"><img src="Logos/taste_flavor_co.jpg" alt="Taste Flavor Co."></div>
           <!-- set 2 (duplicate for seamless loop) -->
-          <div class="brand-item"><img src="logos/invicta_kuru.jpg" alt="Invicta Kuru"></div>
-          <div class="brand-item"><img src="logos/zensah.jpg" alt="Zensah"></div>
-          <div class="brand-item"><img src="logos/streetstrider.jpg" alt="StreetStrider"></div>
-          <div class="brand-item"><img src="logos/legion.jpg" alt="Legion" onerror="this.parentElement.remove()"></div>
-          <div class="brand-item"><img src="logos/xtep.jpg" alt="Xtep" onerror="this.parentElement.remove()"></div>
-          <div class="brand-item"><img src="logos/hikebeast.jpg" alt="HikeBeast" onerror="this.parentElement.remove()"></div>
-          <div class="brand-item"><img src="logos/gnc.jpg" alt="GNC"></div>
-          <div class="brand-item"><img src="logos/optimum_nutrition.jpg" alt="Optimum Nutrition"></div>
-          <div class="brand-item"><img src="logos/dr_squatch.jpg" alt="Dr. Squatch"></div>
-          <div class="brand-item"><img src="logos/gorilla_mind.jpg" alt="Gorilla Mind"></div>
-          <div class="brand-item"><img src="logos/shokz.jpg" alt="Shokz"></div>
-          <div class="brand-item"><img src="logos/neleus.png" alt="Neleus"></div>
-          <div class="brand-item"><img src="logos/flipbelt.jpg" alt="FlipBelt"></div>
-          <div class="brand-item"><img src="logos/gymreapers.jpg" alt="Gym Reapers"></div>
-          <div class="brand-item"><img src="logos/rockbros.jpg" alt="Rock Bros"></div>
-          <div class="brand-item"><img src="logos/muscletech.jpg" alt="MuscleTech"></div>
-          <div class="brand-item"><img src="logos/cutler_nutrition.jpg" alt="Cutler Nutrition"></div>
-          <div class="brand-item"><img src="logos/sixstar_pro.jpg" alt="Six Star Pro"></div>
-          <div class="brand-item"><img src="logos/force_factor.jpg" alt="Force Factor"></div>
-          <div class="brand-item"><img src="logos/snap_supplements.jpg" alt="Snap Supplements"></div>
-          <div class="brand-item"><img src="logos/kos.jpg" alt="KOS"></div>
-          <div class="brand-item"><img src="logos/met_rx.jpg" alt="Met-Rx"></div>
-          <div class="brand-item"><img src="logos/perfect_sports_usa.webp" alt="Perfect Sports"></div>
-          <div class="brand-item"><img src="logos/get_raw_nutrition.png" alt="Get Raw Nutrition"></div>
-          <div class="brand-item"><img src="logos/old_school_labs.jpg" alt="Old School Labs"></div>
-          <div class="brand-item"><img src="logos/g2g_protein_bar.jpg" alt="G2G Protein Bar"></div>
-          <div class="brand-item"><img src="logos/raycon.jpg" alt="Raycon"></div>
-          <div class="brand-item"><img src="logos/centric.jpg" alt="Centric"></div>
-          <div class="brand-item"><img src="logos/saltstick.jpg" alt="SaltStick"></div>
-          <div class="brand-item"><img src="logos/intake_breathing.jpg" alt="Intake Breathing"></div>
-          <div class="brand-item"><img src="logos/true_sea_moss.jpg" alt="True Sea Moss"></div>
-          <div class="brand-item"><img src="logos/tralloom.png" alt="Tralloom"></div>
-          <div class="brand-item"><img src="logos/cyclotron_pickleball.jpg" alt="Cyclotron Pickleball"></div>
-          <div class="brand-item"><img src="logos/drywater.jpg" alt="DryWater"></div>
-          <div class="brand-item"><img src="logos/inkhausstore.webp" alt="InkHaus Store"></div>
-          <div class="brand-item"><img src="logos/birdman_life.jpg" alt="Birdman Life"></div>
-          <div class="brand-item"><img src="logos/herfantasybox.jpg" alt="HerFantasyBox"></div>
-          <div class="brand-item"><img src="logos/hererope_fitness.jpg" alt="HereRope Fitness"></div>
-          <div class="brand-item"><img src="logos/taste_flavor_co.jpg" alt="Taste Flavor Co."></div>
+          <div class="brand-item"><img src="Logos/invicta_kuru.jpg" alt="Invicta Kuru"></div>
+          <div class="brand-item"><img src="Logos/zensah.jpg" alt="Zensah"></div>
+          <div class="brand-item"><img src="Logos/streetstrider.jpg" alt="StreetStrider"></div>
+          <div class="brand-item"><img src="Logos/legion.jpg" alt="Legion" onerror="this.parentElement.remove()"></div>
+          <div class="brand-item"><img src="Logos/xtep.jpg" alt="Xtep" onerror="this.parentElement.remove()"></div>
+          <div class="brand-item"><img src="Logos/hikebeast.jpg" alt="HikeBeast" onerror="this.parentElement.remove()"></div>
+          <div class="brand-item"><img src="Logos/gnc.jpg" alt="GNC"></div>
+          <div class="brand-item"><img src="Logos/optimum_nutrition.jpg" alt="Optimum Nutrition"></div>
+          <div class="brand-item"><img src="Logos/dr_squatch.jpg" alt="Dr. Squatch"></div>
+          <div class="brand-item"><img src="Logos/gorilla_mind.jpg" alt="Gorilla Mind"></div>
+          <div class="brand-item"><img src="Logos/shokz.jpg" alt="Shokz"></div>
+          <div class="brand-item"><img src="Logos/neleus.png" alt="Neleus"></div>
+          <div class="brand-item"><img src="Logos/flipbelt.jpg" alt="FlipBelt"></div>
+          <div class="brand-item"><img src="Logos/gymreapers.jpg" alt="Gym Reapers"></div>
+          <div class="brand-item"><img src="Logos/rockbros.jpg" alt="Rock Bros"></div>
+          <div class="brand-item"><img src="Logos/muscletech.jpg" alt="MuscleTech"></div>
+          <div class="brand-item"><img src="Logos/cutler_nutrition.jpg" alt="Cutler Nutrition"></div>
+          <div class="brand-item"><img src="Logos/sixstar_pro.jpg" alt="Six Star Pro"></div>
+          <div class="brand-item"><img src="Logos/force_factor.jpg" alt="Force Factor"></div>
+          <div class="brand-item"><img src="Logos/snap_supplements.jpg" alt="Snap Supplements"></div>
+          <div class="brand-item"><img src="Logos/kos.jpg" alt="KOS"></div>
+          <div class="brand-item"><img src="Logos/met_rx.jpg" alt="Met-Rx"></div>
+          <div class="brand-item"><img src="Logos/perfect_sports_usa.webp" alt="Perfect Sports"></div>
+          <div class="brand-item"><img src="Logos/get_raw_nutrition.png" alt="Get Raw Nutrition"></div>
+          <div class="brand-item"><img src="Logos/old_school_labs.jpg" alt="Old School Labs"></div>
+          <div class="brand-item"><img src="Logos/g2g_protein_bar.jpg" alt="G2G Protein Bar"></div>
+          <div class="brand-item"><img src="Logos/raycon.jpg" alt="Raycon"></div>
+          <div class="brand-item"><img src="Logos/centric.jpg" alt="Centric"></div>
+          <div class="brand-item"><img src="Logos/saltstick.jpg" alt="SaltStick"></div>
+          <div class="brand-item"><img src="Logos/intake_breathing.jpg" alt="Intake Breathing"></div>
+          <div class="brand-item"><img src="Logos/true_sea_moss.jpg" alt="True Sea Moss"></div>
+          <div class="brand-item"><img src="Logos/tralloom.png" alt="Tralloom"></div>
+          <div class="brand-item"><img src="Logos/cyclotron_pickleball.jpg" alt="Cyclotron Pickleball"></div>
+          <div class="brand-item"><img src="Logos/drywater.jpg" alt="DryWater"></div>
+          <div class="brand-item"><img src="Logos/inkhausstore.webp" alt="InkHaus Store"></div>
+          <div class="brand-item"><img src="Logos/birdman_life.jpg" alt="Birdman Life"></div>
+          <div class="brand-item"><img src="Logos/herfantasybox.jpg" alt="HerFantasyBox"></div>
+          <div class="brand-item"><img src="Logos/hererope_fitness.jpg" alt="HereRope Fitness"></div>
+          <div class="brand-item"><img src="Logos/taste_flavor_co.jpg" alt="Taste Flavor Co."></div>
         </div>
       </div>
       <button class="brand-arrow brand-next" aria-label="Next brands">&#8250;</button>
     </div>
-    <p class="brands-tagline" id="brandCount">35+ brands &amp; counting</p>
+    <p class="brands-tagline" id="brandCount">Selected product and brand content</p>
   </div>
 
-  <!-- RESULTS -->
-  <section class="results">
-    <div class="result"><span class="result-num">3M+</span><span class="result-label">Combined views</span></div>
-    <div class="result"><span class="result-num">338K</span><span class="result-label">Views on one product video</span></div>
-    <div class="result"><span class="result-num" id="resultBrands">39</span><span class="result-label">Brands worked with</span></div>
-    <div class="result"><span class="result-num">14K+</span><span class="result-label">TikTok + Instagram followers</span></div>
-  </section>
-
-  <!-- UGC VIDEO GRID (5 across) -->
+<!-- UGC VIDEO GRID (5 across) -->
   <!--
     TO SWAP IN REAL VIDEOS: replace the <img class="v-thumb"> (or .v-placeholder div)
     with: <video class="v-thumb" autoplay muted loop playsinline src="videos/filename.mp4"></video>
@@ -853,6 +855,7 @@
     <div class="section-header">
       <p class="section-eyebrow">Work Samples</p>
       <h2 class="section-title">Scripted &amp; <em>Authentic.</em></h2>
+      <p class="section-intro">I create product demos, testimonials, and lifestyle videos for running, fitness, and wellness brands.</p>
     </div>
     <div class="video-grid">
 
@@ -904,7 +907,8 @@
   <section class="playful-section">
     <div class="section-header">
       <p class="section-eyebrow">Posted on @lapice_out</p>
-      <h2 class="section-title">Live on <em>My Page.</em></h2>
+      <h2 class="section-title">Out in <em>the Feed.</em></h2>
+      <p class="section-intro">Selected TikTok posts. Explore more of my work on <a href="https://www.instagram.com/lapice_out" target="_blank" rel="noopener">Instagram</a> and <a href="https://www.tiktok.com/@lapice_out" target="_blank" rel="noopener">TikTok</a>.</p>
     </div>
     <div class="playful-grid">
       <div class="playful-card embed-card">
@@ -924,6 +928,17 @@
         <span class="v-format embed-label">Supplement &middot; Legion</span>
       </div>
     </div>
+  </section>
+
+  <section class="content-section services" aria-labelledby="services-title">
+    <p class="section-eyebrow">Work with me</p>
+    <h2 class="section-title" id="services-title">Your brand. <em>In motion.</em></h2>
+    <div class="service-grid">
+      <article><h3>Content for your brand</h3><p>Product demos, testimonials, voiceovers, and lifestyle videos delivered for your brand channels. Deliverables and usage are agreed for each project.</p></article>
+      <article><h3>Posts on my channels</h3><p>Sponsored content on my TikTok and Instagram, with the platforms and posting schedule agreed as part of your package.</p></article>
+      <article><h3>More ways to share</h3><p>Facebook and Threads distribution can be included in your package. Extra hooks, edits, and raw footage are available by agreement.</p></article>
+    </div>
+    <a class="hero-btn hero-btn-dark" href="mailto:lapiceugc@gmail.com?subject=UGC%20project%20inquiry">Tell me about your project</a>
   </section>
 
   <!-- GALLERY / STILL PHOTOS -->
@@ -1024,16 +1039,6 @@
       requestAnimationFrame(tick);
     })();
 
-    // Live brand count (unique logos that actually loaded)
-    window.addEventListener('load', function() {
-      var names = {};
-      document.querySelectorAll('#brandsTrack .brand-item img').forEach(function(i){ if (i.naturalWidth) names[i.alt] = 1; });
-      var n = Object.keys(names).length;
-      var el = document.getElementById('brandCount');
-      if (el && n) el.innerHTML = n + ' brands &amp; counting';
-      var rb = document.getElementById('resultBrands'); if (rb && n) rb.textContent = n;
-    });
-
     // Video card interactions: first card autoplays, rest show play button
     (function() {
       var MUTED_SVG = '<svg viewBox="0 0 24 24" fill="white" width="12" height="12"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>';
@@ -1128,6 +1133,28 @@
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') close();
       });
+    })();
+
+    (function() {
+      var dialog = document.querySelector('.video-dialog');
+      var player = dialog.querySelector('video');
+      document.querySelectorAll('.video-card').forEach(function(card) {
+        var source = card.querySelector('video');
+        var button = document.createElement('button');
+        button.className = 'v-expand'; button.type = 'button'; button.textContent = 'Expand';
+        button.setAttribute('aria-label', 'Expand ' + card.querySelector('.v-brand').textContent + ' video');
+        card.appendChild(button);
+        button.addEventListener('click', function(e) {
+          e.stopPropagation();
+          document.querySelectorAll('.video-card video').forEach(function(v) { v.pause(); });
+          player.src = source.getAttribute('src'); player.poster = source.poster;
+          dialog.showModal(); player.currentTime = source.currentTime;
+          player.play().catch(function() {});
+        });
+      });
+      dialog.querySelector('button').addEventListener('click', function() { dialog.close(); });
+      dialog.addEventListener('close', function() { player.pause(); player.removeAttribute('src'); player.load(); });
+      dialog.addEventListener('click', function(e) { if (e.target === dialog) dialog.close(); });
     })();
   </script>
 
