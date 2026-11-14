@@ -680,6 +680,11 @@
     .hero-btn-dark { background: var(--text); color: var(--bg); }
     .v-format { position: absolute; bottom: 56px; left: 12px; right: 12px; font-size: 9px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.6); z-index: 3; pointer-events: none; }
     .v-brand { z-index: 3; pointer-events: none; }
+    .playful-section .section-intro { color: rgba(240,236,228,0.75); }
+    .playful-section .section-intro a { color: inherit; }
+    .feed-item { min-width: 0; }
+    .feed-post-link { display: inline-block; margin-top: 12px; color: var(--bg); font-size: 11px; line-height: 1.6; text-underline-offset: 3px; }
+    .feed-post-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
     .embed-card { border: none; background: #000; }
     .embed-card iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
     .embed-label { position: static; display: block; margin-top: 8px; color: rgba(240,236,228,0.55); }
@@ -913,22 +918,50 @@
       <p class="section-intro">Selected TikTok posts. Explore more of my work on <a href="https://www.instagram.com/lapice_out" target="_blank" rel="noopener">Instagram</a> and <a href="https://www.tiktok.com/@lapice_out" target="_blank" rel="noopener">TikTok</a>.</p>
     </div>
     <div class="playful-grid">
-      <div class="playful-card embed-card">
-        <iframe loading="lazy" src="https://www.tiktok.com/player/v1/7684427779449834782?music_info=0&amp;description=0&amp;rel=0&amp;closed_caption=1" allow="fullscreen; autoplay" title="Xtep TikTok"></iframe>
-        <span class="v-format embed-label">Shoe review &middot; Xtep</span>
-      </div>
-      <div class="playful-card embed-card">
-        <iframe loading="lazy" src="https://www.tiktok.com/player/v1/7688054330242436382?music_info=0&amp;description=0&amp;rel=0&amp;closed_caption=1" allow="fullscreen; autoplay" title="HikeBeast TikTok"></iframe>
-        <span class="v-format embed-label">Apparel in use &middot; HikeBeast</span>
-      </div>
-      <div class="playful-card embed-card">
-        <iframe loading="lazy" src="https://www.tiktok.com/player/v1/7676552173483871519?music_info=0&amp;description=0&amp;rel=0&amp;closed_caption=1" allow="fullscreen; autoplay" title="Invicta Kuru TikTok"></iframe>
-        <span class="v-format embed-label">Product showcase &middot; Invicta Kuru</span>
-      </div>
-      <div class="playful-card embed-card">
-        <iframe loading="lazy" src="https://www.tiktok.com/player/v1/7691501486848658718?music_info=0&amp;description=0&amp;rel=0&amp;closed_caption=1" allow="fullscreen; autoplay" title="Legion TikTok"></iframe>
-        <span class="v-format embed-label">Supplement &middot; Legion</span>
-      </div>
+      <article class="feed-item">
+        <div class="playful-card video-card">
+          <video class="v-thumb" muted loop playsinline preload="none" poster="media/[X] xtep-feed.jpg" src="media/[X] xtep-feed.mp4" aria-label="Xtep shoe review"></video>
+          <div class="v-overlay"></div>
+          <span class="v-format">Shoe review</span>
+          <span class="v-brand">Xtep</span>
+          <button class="v-play-btn" aria-label="Play Xtep video"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
+          <button class="v-mute-btn" aria-label="Toggle mute for Xtep"></button>
+        </div>
+        <a class="feed-post-link" href="https://www.tiktok.com/@lapice_out/video/7684427779449834782" target="_blank" rel="noopener">View Xtep post on TikTok &nearr;</a>
+      </article>
+      <article class="feed-item">
+        <div class="playful-card video-card">
+          <video class="v-thumb" muted loop playsinline preload="none" poster="media/[X] hikebeast-feed.jpg" src="media/[X] hikebeast-feed.mp4" aria-label="HikeBeast apparel in use"></video>
+          <div class="v-overlay"></div>
+          <span class="v-format">Apparel in use</span>
+          <span class="v-brand">HikeBeast</span>
+          <button class="v-play-btn" aria-label="Play HikeBeast video"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
+          <button class="v-mute-btn" aria-label="Toggle mute for HikeBeast"></button>
+        </div>
+        <a class="feed-post-link" href="https://www.tiktok.com/@lapice_out/video/7688054330242436382" target="_blank" rel="noopener">View HikeBeast post on TikTok &nearr;</a>
+      </article>
+      <article class="feed-item">
+        <div class="playful-card video-card">
+          <video class="v-thumb" muted loop playsinline preload="none" poster="media/[X] clogs-feed.jpg" src="media/[X] clogs-feed.mp4" aria-label="Invicta Kuru product showcase"></video>
+          <div class="v-overlay"></div>
+          <span class="v-format">Product showcase</span>
+          <span class="v-brand">Invicta Kuru</span>
+          <button class="v-play-btn" aria-label="Play Invicta Kuru video"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
+          <button class="v-mute-btn" aria-label="Toggle mute for Invicta Kuru"></button>
+        </div>
+        <a class="feed-post-link" href="https://www.tiktok.com/@lapice_out/video/7676552173483871519" target="_blank" rel="noopener">View Invicta Kuru post on TikTok &nearr;</a>
+      </article>
+      <article class="feed-item">
+        <div class="playful-card video-card">
+          <video class="v-thumb" muted loop playsinline preload="none" poster="media/[X] legion-feed.jpg" src="media/[X] legion-feed.mp4" aria-label="Legion supplement"></video>
+          <div class="v-overlay"></div>
+          <span class="v-format">Supplement</span>
+          <span class="v-brand">Legion</span>
+          <button class="v-play-btn" aria-label="Play Legion video"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="white"/></svg></button>
+          <button class="v-mute-btn" aria-label="Toggle mute for Legion"></button>
+        </div>
+        <a class="feed-post-link" href="https://www.tiktok.com/@lapice_out/video/7691501486848658718" target="_blank" rel="noopener">View Legion post on TikTok &nearr;</a>
+      </article>
     </div>
   </section>
 
@@ -1059,7 +1092,7 @@
           if (muteBtn) muteBtn.innerHTML = MUTED_SVG;
 
           // First card autoplays
-          if (i === 0) {
+          if (i === 0 && gridSel === '.video-grid') {
             video.play().catch(function() {});
           }
 
